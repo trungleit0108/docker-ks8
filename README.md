@@ -87,31 +87,6 @@ Completing the project involves several steps:
 
 For more detail about each of these steps, see the project lesson.
 
-### STEP BY STEP ###
-I. Create an EKS (Kubernetes) Cluster
-1. Creat cluster
-eksctl create cluster --name simple-jwt-api --nodes=2 --version=1.26 --instance-types=t2.medium --region=us-east-1
-2. Verify
-kubectl get nodes
-3. Delete cluster
-eksctl delete cluster simple-jwt-api  --region=us-east-1
-
-II. Create an IAM Role for CodeBuild
-1. Get your AWS account id: 
-aws sts get-caller-identity --query Account --output text
-2. Update the trust.json file with your AWS account id.
-3. Create a role, 'UdacityFlaskDeployCBKubectlRole', using the trust.json trust relationship:
-aws iam create-role --role-name UdacityFlaskDeployCBKubectlRole --assume-role-policy-document file://trust.json --output text --query 'Role.Arn'
-4. Attach the iam-role-policy.json policy to the 'UdacityFlaskDeployCBKubectlRole' as:
-aws iam put-role-policy --role-name UdacityFlaskDeployCBKubectlRole --policy-name eks-describe --policy-document file://iam-role-policy.json
-
-III. Authorize the CodeBuild using EKS RBAC
-1. Fetch
-kubectl get -n kube-system configmap/aws-auth -o yaml > /tmp/aws-auth-patch.yml
-
-
-kubectl get services simple-jwt-api -o wide
-externalIp: af90350543e0f4b239762a3f40ba93e7-1220780717.us-east-1.elb.amazonaws.com
 
 ### FOR TESTING ENDPOINT ###
 http://af90350543e0f4b239762a3f40ba93e7-1220780717.us-east-1.elb.amazonaws.com/
